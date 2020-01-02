@@ -1,0 +1,10 @@
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-control {
+  padding: 5px;
+  max-width: 300px;
+  width: 100%;
+}
