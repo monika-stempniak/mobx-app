@@ -1,30 +1,14 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
 
-import { Store } from "../store/Store";
 import Row from "./Row";
 
 import "./Table.css";
 
-interface TableProps {}
-
-interface InjectedProps {
-  store: Store;
-}
-
-@inject("store")
-@observer
-class Table extends React.Component<TableProps> {
-  // https://medium.com/@prashaantt/strongly-typing-injected-react-props-635a6828acaf
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
-  render() {
-    const { store } = this.injected;
-
+const Table = inject("store")(
+  observer(({ store }) => {
     return (
-      <table className="app-table my-5">
+      <table className="app-table my-5" border="1">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -46,7 +30,7 @@ class Table extends React.Component<TableProps> {
         </tfoot>
       </table>
     );
-  }
-}
+  })
+);
 
 export default Table;

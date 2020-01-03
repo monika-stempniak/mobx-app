@@ -1,4 +1,5 @@
 import {
+  decorate,
   observable,
   action,
   computed,
@@ -6,15 +7,10 @@ import {
   when,
   reaction,
   toJS,
-  runInAction
+  flow
 } from "mobx";
 
-export interface Employee {
-  name: string;
-  salary: number;
-}
-
-export class Store {
+class Store {
   constructor() {
     // initial reaction
     // autorun reacts to just everything that is used in its function
@@ -42,54 +38,55 @@ export class Store {
     );
   }
 
-  @observable employeesList: Array<Employee> = [];
-  @observable state: string = "pending"; // "pending" / "done" / "error"
+  employeesList = [];
+  state = "pending"; // "pending" / "done" / "error"
 
-  @action.bound
-  async fetchInitialEmployees() {
+  fetchInitialEmployees = flow(function*() {
     try {
-      const response = await fetch(
+      const response = yield fetch(
         "https://jsonplaceholder.typicode.com/users"
       );
-      const data = await response.json();
-      const employees = data.map((e: Employee) => ({
-        name: e.name,
-        salary: Math.round(Math.random() * 1000)
-      }));
-      runInAction(() => {
-        this.state = "done";
-        this.employeesList = employees;
-      });
+      const data = yield response.json();
+      const employees = data.map(e =>
+        Object.assign(e, { salary: Math.round(Math.random() * 1000) })
+      );
+      this.state = "done";
+      this.employeesList = employees;
     } catch (error) {
-      runInAction(() => {
-        this.state = "error";
-      });
+      this.state = "error";
     }
-  }
+  });
 
   printWarning() {
     console.log("Total salary is more than 500");
   }
 
-  @action.bound
   clearList() {
     this.employeesList = [];
   }
 
-  @action.bound
-  addEmployee(employee: Employee) {
+  addEmployee(employee) {
     this.employeesList.push(employee);
   }
 
-  @computed
   get totalSalary() {
     let sum = 0;
     this.employeesList.map(e => (sum += e.salary));
     return sum;
   }
 
-  @computed
   get highEarnersCount() {
     return this.employeesList.filter(e => e.salary > 500).length;
   }
 }
+
+decorate(Store, {
+  employeesList: observable,
+  state: observable,
+  clearList: action,
+  addEmployee: action,
+  totalSalary: computed,
+  highEarnersCount: computed
+});
+
+export const appStore = new Store();
