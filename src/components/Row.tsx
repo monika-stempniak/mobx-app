@@ -1,8 +1,15 @@
 import React from "react";
 
+import { Employee } from "../store/Store";
+
 import "./Row.css";
 
-export default function Row({ id, data }) {
+interface RowProps {
+  id: number;
+  data: Employee;
+}
+
+const Row: React.FC<RowProps> = ({ id, data }) => {
   const { name, salary } = data;
 
   return (
@@ -12,4 +19,6 @@ export default function Row({ id, data }) {
       <td className="price">{salary}$</td>
     </tr>
   );
-}
+};
+
+export default Row;
