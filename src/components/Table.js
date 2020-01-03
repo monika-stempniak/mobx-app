@@ -7,6 +7,8 @@ import "./Table.css";
 
 export default class Table extends Component {
   render() {
+    const { store } = this.props;
+
     return (
       <table className="app-table my-5" border="1">
         <thead>
@@ -17,10 +19,17 @@ export default class Table extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.store.employeesList.map((employee, index) => (
+          {store.employeesList.map((employee, index) => (
             <Row key={index} id={index} data={employee} />
           ))}
         </tbody>
+        <tfoot>
+          <tr>
+            <th scope="col" className="footer-cell"></th>
+            <td className="total-cell">TOTAL:</td>
+            <td className="total-cell">{store.totalSalary}$</td>
+          </tr>
+        </tfoot>
       </table>
     );
   }

@@ -6,7 +6,8 @@ export default class Controls extends Component {
   addRecord = () => {
     const name = prompt("The name:");
     const salary = prompt("The salary:");
-    this.props.store.addEmployee({ name, salary });
+    const salaryToNum = Number(salary);
+    this.props.store.addEmployee({ name, salary: salaryToNum });
   };
 
   clearTable = () => {

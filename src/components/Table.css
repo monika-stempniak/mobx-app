@@ -1,3 +1,14 @@
 .app-table {
   width: 100%;
+  border-color: black;
+}
+
+.footer-cell {
+  border-color: white;
+}
+
+.total-cell {
+  text-align: right;
+  color: firebrick;
+  font-weight: bolder;
 }
