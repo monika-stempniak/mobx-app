@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { observer } from "mobx-react";
+import React from "react";
+import { observer, inject } from "mobx-react";
 
 import "./Footer.css";
 
-export default class Footer extends Component {
-  render() {
-    const num = this.props.store.highEarnersCount;
+const Footer = inject("store")(
+  observer(({ store }) => {
+    const num = store.highEarnersCount;
     const plural = num === 1 ? "" : "s";
 
     return (
@@ -15,7 +15,7 @@ export default class Footer extends Component {
         that earn more than 500$/day.
       </p>
     );
-  }
-}
+  })
+);
 
-Footer = observer(Footer);
+export default Footer;

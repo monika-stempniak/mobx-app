@@ -1,14 +1,12 @@
-import React, { Component } from "react";
-import { observer } from "mobx-react";
+import React from "react";
+import { observer, inject } from "mobx-react";
 
 import Row from "./Row";
 
 import "./Table.css";
 
-export default class Table extends Component {
-  render() {
-    const { store } = this.props;
-
+const Table = inject("store")(
+  observer(({ store }) => {
     return (
       <table className="app-table my-5" border="1">
         <thead>
@@ -32,7 +30,7 @@ export default class Table extends Component {
         </tfoot>
       </table>
     );
-  }
-}
+  })
+);
 
-Table = observer(Table);
+export default Table;
