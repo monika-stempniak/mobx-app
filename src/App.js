@@ -1,10 +1,13 @@
 import React from "react";
+import { configure } from "mobx";
 
 import Controls from "./components/Controls";
 import Table from "./components/Table";
 import { appStore } from "./store/Store";
 
 import "./App.css";
+
+configure({ enforceActions: "observed" });
 
 function App() {
   return (

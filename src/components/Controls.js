@@ -6,11 +6,11 @@ export default class Controls extends Component {
   addRecord = () => {
     const name = prompt("The name:");
     const salary = prompt("The salary:");
-    console.log(name, salary);
+    this.props.store.addEmployee({ name, salary });
   };
 
   clearTable = () => {
-    console.log("clear list...");
+    this.props.store.clearList();
   };
 
   render() {

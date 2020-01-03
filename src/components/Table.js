@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { observer } from "mobx-react";
 
 import Row from "./Row";
 
@@ -24,3 +25,5 @@ export default class Table extends Component {
     );
   }
 }
+
+Table = observer(Table);
